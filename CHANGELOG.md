@@ -1,9 +1,9 @@
 # Changelog
 
-## 0.5.0 (unreleased)
+## 1.0.0 (2026-07-10)
 
-The "ready for the world" release: everything a server needs, no external
-scripts or bots.
+First public release: everything a server needs, no external scripts or
+bots. Versions below 1.0.0 were internal builds on the MineWave network.
 
 - **Multi-list**: several lists can be active at once. `/ml load` adds,
   `/ml unload` deactivates keeping progress, `/ml switch` re-activates a saved
@@ -31,6 +31,11 @@ scripts or bots.
   claim/stocked; 0.4.x clients keep working over v1.
 - Fix: `/ml stockarea clear` (or removing every area) now zeroes the
   `stocked` counts on the next scan instead of leaving stale values behind.
+- Friendly defaults outside MCDR: the state now defaults to
+  `config/mankelist/state.json` and `/ml import` scans `schematics/`
+  (auto-created). Legacy schemlist (`../config/schemlist/state.json`) and
+  Syncmatica (`syncmatics/`) layouts are picked up automatically when
+  present, so existing setups keep working unchanged.
 - `Shift+J` opens the MankeList settings screen in-game, so the config is
   reachable without Mod Menu (plain `J` still toggles the HUD; a separate
   rebindable "Open MankeList settings" key stays available).

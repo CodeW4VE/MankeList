@@ -155,8 +155,8 @@ and line count are all configurable in-game.
 
 | Field | Default | Meaning |
 | --- | --- | --- |
-| `statePath` | `../config/schemlist/state.json` | Where the shared state lives. On a plain Fabric server, point it anywhere writable, e.g. `config/mankelist-state.json` |
-| `importDir` | `syncmatics` | Folder scanned for `.litematic` files by `/ml import` |
+| `statePath` | `config/mankelist/state.json` | Where the shared state lives (auto-created). If a legacy schemlist/MCDR layout (`../config/schemlist/state.json`) already exists, it is reused |
+| `importDir` | `schematics` | Folder scanned for `.litematic` files by `/ml import` (auto-created; `syncmatics` is used if that folder already exists) |
 | `discordWebhookUrl` | `""` | Discord webhook for the built-in board (empty = off) |
 | `pollSeconds` | `5` | How often the state file's mtime is checked |
 | `promptsEnabled` | `true` | Master switch for Manke's nudges |

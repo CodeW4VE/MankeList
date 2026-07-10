@@ -386,14 +386,17 @@ public class MankeList implements ModInitializer {
 	 * promptsEnabled/scanSeconds/promptCooldownSeconds (Manke's prompt),
 	 * importDir (/ml import), stockScanSeconds (stocking areas) and
 	 * discordWebhookUrl (built-in board). Missing fields = defaults (nullable
-	 * wrappers keep old configs valid). The default statePath assumes an MCDR
-	 * layout (the server runs in server/ and MCDR config lives one level up);
-	 * on a plain Fabric server it simply starts empty until /ml load.
+	 * wrappers keep old configs valid). Default paths: if the legacy
+	 * schemlist/MCDR layout is already present it is reused, otherwise
+	 * everything lives inside the server's own config/ and a "schematics"
+	 * folder, so a plain Fabric server never writes outside its root.
 	 */
 	private void loadServerConfig() {
 		Path cfgPath = FabricLoader.getInstance().getConfigDir().resolve("mankelist-server.json");
-		String statePathStr = "../config/schemlist/state.json";
-		String importDirStr = "syncmatics";
+		String statePathStr = Files.exists(Path.of("../config/schemlist/state.json"))
+				? "../config/schemlist/state.json"
+				: FabricLoader.getInstance().getConfigDir().resolve("mankelist").resolve("state.json").toString();
+		String importDirStr = Files.isDirectory(Path.of("syncmatics")) ? "syncmatics" : "schematics";
 		String webhookUrlStr = "";
 		int pollSeconds = 5;
 		boolean prompts = true;
@@ -435,6 +438,11 @@ public class MankeList implements ModInitializer {
 		}
 		this.statePath = Path.of(statePathStr).toAbsolutePath().normalize();
 		this.importDir = Path.of(importDirStr).toAbsolutePath().normalize();
+		try {
+			Files.createDirectories(this.importDir);
+		} catch (Exception e) {
+			LOGGER.warn("[MankeList] could not create import dir {}", this.importDir, e);
+		}
 		this.webhookUrl = webhookUrlStr;
 		this.pollTicks = pollSeconds * 20;
 		this.promptsEnabled = prompts;
