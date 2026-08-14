@@ -151,7 +151,9 @@ and line count are all configurable in-game.
 <img src="docs/img/discord.gif" alt="A check in game editing the Discord board live" width="820">
 </div>
 
-## Server config (`config/mankelist-server.json`)
+## Server config
+
+The server reads `config/mankelist-server.json`:
 
 | Field | Default | Meaning |
 | --- | --- | --- |
