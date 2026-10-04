@@ -44,3 +44,6 @@ PRIVATE.md
 run/
 config/
 docs/ANNOUNCEMENTS_DRAFT.md
+
+__pycache__/
+*.pyc
