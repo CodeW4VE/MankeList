@@ -4,14 +4,15 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.minecraft.resources.Identifier;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
 
-import org.lwjgl.glfw.GLFW;
+
 
 import xyz.w4ve.mankelist.MaterialListPayload;
 
@@ -37,23 +38,24 @@ public class MankeListClient implements ClientModInitializer {
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
 				client.execute(() -> ClientListState.setList(null)));
 
-		KeyMapping toggleHud = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-				"key.mankelist.toggle_hud", InputConstants.Type.KEYSYM,
-				GLFW.GLFW_KEY_J, "key.categories.mankelist"));
-		KeyMapping cycleList = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-				"key.mankelist.cycle_list", InputConstants.Type.KEYSYM,
-				GLFW.GLFW_KEY_K, "key.categories.mankelist"));
-		KeyMapping openConfig = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-				"key.mankelist.open_config", InputConstants.Type.KEYSYM,
-				GLFW.GLFW_KEY_UNKNOWN, "key.categories.mankelist"));
+		KeyMapping.Category category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("mankelist", "mankelist"));
+		KeyMapping toggleHud = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+				"key.mankelist.toggle_hud", InputConstants.Type.KEYBOARD,
+				InputConstants.KEY_J, category));
+		KeyMapping cycleList = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+				"key.mankelist.cycle_list", InputConstants.Type.KEYBOARD,
+				InputConstants.KEY_K, category));
+		KeyMapping openConfig = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+				"key.mankelist.open_config", InputConstants.Type.KEYBOARD,
+				InputConstants.UNKNOWN.getValue(), category));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (toggleHud.consumeClick()) {
-				if (Screen.hasShiftDown()) {
+				if (net.minecraft.client.Minecraft.getInstance().hasShiftDown()) {
 					// Shift+J opens the settings (no Mod Menu needed);
 					// plain J just toggles the HUD.
-					if (client.screen == null) {
-						client.setScreen(new ConfigScreen(null));
+					if (client.gui.screen() == null) {
+						client.setScreenAndShow(new ConfigScreen(null));
 					}
 					continue;
 				}
@@ -65,12 +67,12 @@ public class MankeListClient implements ClientModInitializer {
 				ClientListState.cycleFocus();
 			}
 			while (openConfig.consumeClick()) {
-				if (client.screen == null) {
-					client.setScreen(new ConfigScreen(null));
+				if (client.gui.screen() == null) {
+					client.setScreenAndShow(new ConfigScreen(null));
 				}
 			}
 		});
 
-		HudRenderCallback.EVENT.register((guiGraphics, deltaTracker) -> HudRenderer.render(guiGraphics));
+		HudElementRegistry.addLast(Identifier.fromNamespaceAndPath("mankelist", "materials"), (guiGraphics, deltaTracker) -> HudRenderer.render(guiGraphics));
 	}
 }

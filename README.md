@@ -6,7 +6,7 @@
 
 **A shared material list for community builds: live HUD, chat checklists, claims, stock tracking and a self-updating Discord board. One jar.**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21-brightgreen?logo=minecraft)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.21%20%2F%2026.3-brightgreen?logo=minecraft)](https://www.minecraft.net/)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-blue)](https://fabricmc.net/)
 [![Requires Fabric API](https://img.shields.io/badge/Requires-Fabric%20API-blue)](https://modrinth.com/mod/fabric-api)
 [![Environment](https://img.shields.io/badge/Environment-Server%20%2B%20optional%20client-orange)](#installation)
@@ -55,6 +55,15 @@ works against:
 </div>
 
 ## Installation
+
+Use the jar matching your Minecraft version: **1.21 / 1.21.1** or **26.3**.
+Minecraft 26.3 needs Java 25 and Fabric Loader 0.19.5 or newer; 1.21 uses Java 21.
+Downloads are available on [Modrinth](https://modrinth.com/mod/mankelist) and
+[GitHub Releases](https://github.com/CodeW4VE/MankeList/releases).
+
+Keep `config/mankelist/` and the `mankelist-*.json` configuration files when updating.
+Saved lists, checks, claims, followers and stocking areas are retained. Active lists
+are restored as the dedicated server starts.
 
 **Server** (required): drop `mankelist-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api)
 into the server's `mods/` folder. That's it: everything below works with a
@@ -186,8 +195,8 @@ the server picks changes up within `pollSeconds`.
 
 ## Compatibility
 
-- Minecraft **1.21**, Fabric Loader ≥ 0.16, Fabric API. JDK 21 to build
-  (`./gradlew build`, jar lands in `build/libs/`).
+- Minecraft **1.21 / 1.21.1** and **26.3**, with the matching Fabric API.
+  Build all supported jars with `python3 tools/multiversion.py` (JDK 21 and 25).
 - Old clients keep working against newer servers (versioned network channels).
 - The state format is compatible with the schemlist MCDR plugin, if you come
   from that ecosystem.

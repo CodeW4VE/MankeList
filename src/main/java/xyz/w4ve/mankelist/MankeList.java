@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -103,6 +104,9 @@ public class MankeList implements ModInitializer {
 			}
 		});
 
+		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+			if (server.isDedicatedServer()) refreshAndBroadcast(server);
+		});
 		ServerTickEvents.END_SERVER_TICK.register(this::pollAndBroadcast);
 		ServerTickEvents.END_SERVER_TICK.register(this::scanInventories);
 		ServerTickEvents.END_SERVER_TICK.register(this::scanStockAreas);

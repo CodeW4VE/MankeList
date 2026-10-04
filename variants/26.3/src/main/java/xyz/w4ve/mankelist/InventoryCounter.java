@@ -5,6 +5,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.ItemContainerContents;
 
@@ -39,16 +40,16 @@ public final class InventoryCounter {
 		// Shulker box contents (1.21: components -> minecraft:container)
 		ItemContainerContents contents = stack.get(DataComponents.CONTAINER);
 		if (contents != null) {
-			for (ItemStack inner : contents.nonEmptyItems()) {
-				add(inner, inner.getCount(), out);
+			for (ItemStackTemplate inner : contents.nonEmptyItems()) {
+				add(inner.create(), inner.count(), out);
 			}
 		}
 
 		// Bundle contents
 		BundleContents bundle = stack.get(DataComponents.BUNDLE_CONTENTS);
 		if (bundle != null) {
-			for (ItemStack inner : bundle.items()) {
-				add(inner, inner.getCount(), out);
+			for (ItemStackTemplate inner : bundle.items()) {
+				add(inner.create(), inner.count(), out);
 			}
 		}
 	}

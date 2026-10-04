@@ -6,7 +6,7 @@
 
 **Lista de materiales compartida para proyectos comunitarios: HUD en vivo, checks por chat, claims, control de stock y un board de Discord que se actualiza solo. Un solo jar.**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21-brightgreen?logo=minecraft)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.21%20%2F%2026.3-brightgreen?logo=minecraft)](https://www.minecraft.net/)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-blue)](https://fabricmc.net/)
 [![Requires Fabric API](https://img.shields.io/badge/Requiere-Fabric%20API-blue)](https://modrinth.com/mod/fabric-api)
 [![Environment](https://img.shields.io/badge/Entorno-Server%20%2B%20cliente%20opcional-orange)](#instalación)
@@ -15,6 +15,13 @@
 [English](README.md) | Español
 
 </div>
+
+
+## Compatibilidad y actualización
+
+Usá el jar correspondiente a **1.21 / 1.21.1** o **26.3**, junto con Fabric API para esa versión. Minecraft 26.3 necesita Java 25 y Fabric Loader 0.19.5 o superior; 1.21 necesita Java 21.
+
+Conservá `config/mankelist/` y los archivos `mankelist-*.json` al actualizar. Se mantienen las listas, los materiales marcados, las asignaciones, los seguidores y las zonas de almacenamiento. Las listas activas se restauran al iniciar el servidor dedicado.
 
 ---
 
