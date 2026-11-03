@@ -16,77 +16,50 @@ English | [Español](README_es.md)
 
 </div>
 
----
-
-## What is it?
-
-Your community is building something big. Everyone needs to know **what
-materials are missing, who is farming what, and how far along you are**,
-without pinging an admin or opening a spreadsheet.
-
-**MankeList** keeps ONE shared material list on the server that everybody
-works against:
-
-- 📥 **Import straight from a `.litematic`**: `/ml import` parses the
-  schematic on the server and builds the list (no external tools).
-- ✅ **Collaborative checks**: anyone can `/ml check` a finished material;
-  the whole server sees the announcement.
-- 🐵 **Manke's nudge (opt-in)**: players who `/ml follow` get a private
-  *"Ooh ooh! Manke sees you carry enough Hopper (48 / 18). Check it off?
-  [✓ Yes]"* when their inventory covers a pending material. Works for players
-  **without the mod** too (it's plain clickable chat).
-- ⛏ **Claims**: `/ml claim obsidian` tells everyone you are on it. When it
-  gets checked off, the name sticks as *who got it*.
-- 📦 **Stocking areas**: mark the drop-off chest room with
-  `/ml stockarea add` and the server counts what is already stored (nested
-  shulkers included). Progress becomes *fine-grained*: 190k obsidian in
-  chests counts, even before anyone checks the item off.
-- 🖥️ **Optional client HUD**: a Litematica-style overlay with live
-  *carrying + stocked / needed* counts against your own inventory, custom
-  ordering, and multi-list cycling. Players without the client mod lose
-  nothing but the overlay.
-- 📊 **Discord board built in**: paste a webhook URL in the config and the
-  mod posts the full list to a channel and **keeps editing the same
-  messages**: a live board with progress bars, 📦 stock and ⛏ claims. No bot,
-  no extra process.
+A shared material list for big community builds, so everyone can see what is missing, who is
+farming what and how far along you are.
 
 <div align="center">
 <img src="docs/img/demo.gif" alt="Checking off a material and claiming another, live on the HUD" width="820">
 </div>
 
+- Import the list straight from a `.litematic` on the server with `/ml import`.
+- Anyone can check off a finished material, and the server announces it.
+- Claims: `/ml claim obsidian` tells everyone you are on it.
+- Stocking areas: mark the chest room and stored items count as progress (shulkers included).
+- Manke's nudge (opt-in with `/ml follow`): a private clickable message when your inventory
+  covers a pending material. Works for players without the mod.
+- A Discord board that the mod keeps editing in place, from a webhook. No bot needed.
+- Optional client HUD with live counts against your own inventory.
+
 ## Installation
 
-Use the jar matching your Minecraft version: **1.21 / 1.21.1** or **26.3**.
-Minecraft 26.3 needs Java 25 and Fabric Loader 0.19.5 or newer; 1.21 uses Java 21.
-Downloads are available on [Modrinth](https://modrinth.com/mod/mankelist) and
-[GitHub Releases](https://github.com/CodeW4VE/MankeList/releases).
+- Minecraft 1.21 / 1.21.1 or 26.3, with [Fabric API](https://modrinth.com/mod/fabric-api).
+  Java 21 for 1.21; Java 25 and Fabric Loader 0.19.5+ for 26.3.
+- **Server (required):** put the jar in the server's `mods/`. Everything works with vanilla clients.
+- **Client (optional):** the same jar adds the HUD. Vanilla clients are never sent anything.
 
-Keep `config/mankelist/` and the `mankelist-*.json` configuration files when updating.
-Saved lists, checks, claims, followers and stocking areas are retained. Active lists
-are restored as the dedicated server starts.
+When updating, keep `config/mankelist/` and the `mankelist-*.json` files; lists, checks, claims,
+followers and stocking areas are kept.
 
-**Server** (required): drop `mankelist-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api)
-into the server's `mods/` folder. That's it: everything below works with a
-vanilla client.
-
-**Client** (optional, for the HUD): install the same jar client-side. The
-server streams the list to modded clients only (Servux-style custom payloads);
-vanilla clients are never sent anything.
-
-## Quick start
+## Usage
 
 ```
-/ml import my_build.litematic     ← builds + activates the list from the schematic
-/ml follow                        ← opt into Manke's inventory nudges
-/ml stockarea add 100 60 100 120 70 120   ← the chest room where materials get dropped
+/ml import my_build.litematic              builds and activates the list from the schematic
+/ml follow                                 opt into Manke's inventory nudges
+/ml stockarea add 100 60 100 120 70 120    the chest room where materials get dropped
+/ml check <material>                       check a material off
 ```
 
 <img src="docs/img/manke_prompt.png" alt="Manke's inventory nudge" width="700">
 
-Then farm away: check things off by clicking Manke's **[✓ Yes]**, or manually
-with `/ml check <material>`.
+On the client, `J` toggles the HUD and `Shift+J` opens its settings.
 
-## Commands
+<!-- modrinth:end -->
+
+## Details
+
+### Commands
 
 Everyone:
 
@@ -125,7 +98,7 @@ you.
 <img src="docs/img/stocking.gif" alt="Stocking areas counting chest contents as progress" width="820">
 </div>
 
-## The HUD (client mod)
+### The HUD (client mod)
 
 <img src="docs/img/hud.png" alt="The HUD with live inventory counts" width="820">
 
@@ -148,7 +121,7 @@ rows collapse to a ✓ and claims render as `@Name`. Sort by amount or arrange a
 fully custom order (grab & drop, searchable). Corner, scale, icons, background
 and line count are all configurable in-game.
 
-## Discord board
+### Discord board
 
 1. In your Discord channel: **Edit channel → Integrations → Webhooks → New
    webhook**, copy its URL.
@@ -160,7 +133,7 @@ and line count are all configurable in-game.
 <img src="docs/img/discord.gif" alt="A check in game editing the Discord board live" width="820">
 </div>
 
-## Server config
+### Server config
 
 The server reads `config/mankelist-server.json`:
 
@@ -175,9 +148,9 @@ The server reads `config/mankelist-server.json`:
 | `promptCooldownSeconds` | `600` | Per player+material nudge cooldown |
 | `stockScanSeconds` | `60` | Stocking-area container scan interval |
 
-## List file format
+### List file format
 
-Lists are plain JSON next to the state file: trivially scriptable:
+Lists are plain JSON next to the state file:
 
 ```json
 {
@@ -193,7 +166,7 @@ The state file adds `claim` (who) and `stocked` (how many delivered) per
 entry, and an `active` array. External tools can read or write these files;
 the server picks changes up within `pollSeconds`.
 
-## Compatibility
+### Compatibility
 
 - Minecraft **1.21 / 1.21.1** and **26.3**, with the matching Fabric API.
   Build all supported jars with `python3 tools/multiversion.py` (JDK 21 and 25).

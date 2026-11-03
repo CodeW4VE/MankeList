@@ -16,73 +16,48 @@
 
 </div>
 
-
-## Compatibilidad y actualización
-
-Usá el jar correspondiente a **1.21 / 1.21.1** o **26.3**, junto con Fabric API para esa versión. Minecraft 26.3 necesita Java 25 y Fabric Loader 0.19.5 o superior; 1.21 necesita Java 21.
-
-Conservá `config/mankelist/` y los archivos `mankelist-*.json` al actualizar. Se mantienen las listas, los materiales marcados, las asignaciones, los seguidores y las zonas de almacenamiento. Las listas activas se restauran al iniciar el servidor dedicado.
-
----
-
-## ¿Qué es?
-
-Tu comunidad está construyendo algo grande. Todos necesitan saber **qué
-materiales faltan, quién está farmeando qué y cuánto llevan**, sin perseguir a
-un admin ni abrir una hoja de cálculo.
-
-**MankeList** mantiene UNA lista de materiales compartida en el server:
-
-- 📥 **Importa directo de un `.litematic`**: `/ml import` parsea la schematic
-  en el server y arma la lista (sin herramientas externas).
-- ✅ **Checks colaborativos**: cualquiera puede marcar con `/ml check` un
-  material terminado; el server entero ve el anuncio.
-- 🐵 **El toque de Manke (opt-in)**: quien haga `/ml follow` recibe un
-  privado *"Ooh ooh! Manke sees you carry enough Hopper (48 / 18). Check it
-  off? [✓ Yes]"* cuando su inventario cubre un material pendiente. Funciona
-  también para jugadores **sin el mod** (es chat clickeable normal).
-- ⛏ **Claims**: `/ml claim obsidian` avisa que estás con eso. Al checkearse,
-  el nombre queda como *quién lo consiguió*.
-- 📦 **Stocking areas**: marca el cuarto de cofres de entrega con
-  `/ml stockarea add` y el server cuenta lo ya guardado (shulkers anidados
-  incluidos). El progreso pasa a ser *fino*: 190k de obsidiana en cofres
-  cuentan, aunque nadie haya checkeado el material todavía.
-- 🖥️ **HUD opcional en el cliente**: overlay estilo Litematica con conteo en
-  vivo *llevas + guardado / necesita* contra tu propio inventario, orden
-  personalizado y ciclado multi-lista. Quien no instale el mod cliente solo se
-  pierde el overlay.
-- 📊 **Board de Discord integrado**: pega la URL de un webhook en la config y
-  el mod postea la lista completa en un canal y **edita siempre los mismos
-  mensajes**: un board en vivo con barras de progreso, 📦 stock y ⛏ claims.
-  Sin bot, sin procesos extra.
+Una lista de materiales compartida para proyectos grandes de la comunidad, para que todos vean
+qué falta, quién está farmeando qué y cuánto llevan.
 
 <div align="center">
 <img src="docs/img/demo.gif" alt="Check de un material y claim de otro, en vivo en el HUD" width="820">
 </div>
 
+- Importa la lista directo de un `.litematic` en el server con `/ml import`.
+- Cualquiera marca un material terminado, y el server lo anuncia.
+- Claims: `/ml claim obsidian` avisa a todos que estás con eso.
+- Stocking areas: marcás el cuarto de cofres y lo guardado cuenta como progreso (shulkers incluidos).
+- El aviso de Manke (si te apuntás con `/ml follow`): un mensaje privado clickeable cuando tu
+  inventario cubre un material pendiente. Funciona sin el mod.
+- Un board de Discord que el mod va editando, con un webhook. Sin bot.
+- HUD opcional en el cliente, con conteo en vivo contra tu inventario.
+
 ## Instalación
 
-**Server** (obligatorio): suelta `mankelist-x.y.z.jar` + [Fabric API](https://modrinth.com/mod/fabric-api)
-en `mods/` del server. Listo: todo lo de arriba funciona con cliente vanilla.
+- Minecraft 1.21 / 1.21.1 o 26.3, con [Fabric API](https://modrinth.com/mod/fabric-api).
+  Java 21 para 1.21; Java 25 y Fabric Loader 0.19.5+ para 26.3.
+- **Server (obligatorio):** poné el jar en `mods/` del server. Todo funciona con clientes vanilla.
+- **Cliente (opcional):** el mismo jar agrega el HUD. A los clientes vanilla no les llega nada.
 
-**Cliente** (opcional, para el HUD): instala el mismo jar en el cliente. El
-server solo le manda la lista a clientes con el mod (payloads custom estilo
-Servux); a los vanilla no les llega nada.
+Al actualizar, conservá `config/mankelist/` y los archivos `mankelist-*.json`; se mantienen las
+listas, los checks, los claims, los seguidores y las zonas de almacenamiento.
 
-## Arranque rápido
+## Uso
 
 ```
-/ml import mi_proyecto.litematic     ← arma y activa la lista desde la schematic
-/ml follow                           ← te apuntas a los avisos de Manke
-/ml stockarea add 100 60 100 120 70 120   ← el cuarto de cofres de entrega
+/ml import mi_proyecto.litematic           arma y activa la lista desde la schematic
+/ml follow                                 te apuntás a los avisos de Manke
+/ml stockarea add 100 60 100 120 70 120    el cuarto de cofres de entrega
+/ml check <material>                       marca un material como hecho
 ```
-
-Y a farmear: se marca con el **[✓ Yes]** de Manke o a mano con
-`/ml check <material>`.
 
 <img src="docs/img/manke_prompt.png" alt="El aviso de inventario de Manke" width="700">
 
-## Comandos
+En el cliente, `J` muestra u oculta el HUD y `Shift+J` abre sus ajustes.
+
+## Detalles
+
+### Comandos
 
 Para todos: `/ml status`, `/ml check`, `/ml uncheck`, `/ml claim`,
 `/ml have <cantidad> <material>` (progreso parcial: "llevo 5.000 azaleas", te
@@ -98,7 +73,7 @@ una, se desambigua como `lista/material` (ej. `/ml check xpfarm/hopper`); el
 autocompletado y los botones de Manke lo hacen solos. La tabla completa está
 en el [README en inglés](README.md#commands).
 
-## El HUD (mod cliente)
+### El HUD (mod cliente)
 
 <img src="docs/img/hud.png" alt="El HUD con conteo de inventario en vivo" width="820">
 
@@ -115,7 +90,7 @@ guardado / necesita** con colores rojo/amarillo/verde; las hechas se
 contraen a un ✓ y los claims salen como `@Nombre`. Orden por cantidad o
 totalmente personalizado (agarrar y soltar, con buscador).
 
-## Board de Discord
+### Board de Discord
 
 1. En tu canal: **Editar canal → Integraciones → Webhooks → Nuevo webhook**,
    copia la URL.
@@ -124,7 +99,7 @@ totalmente personalizado (agarrar y soltar, con buscador).
    vez que la lista cambia (máximo una vez cada 10 s).
 
 La referencia completa de la config del server está en el
-[README en inglés](README.md#server-config-configmankelist-serverjson).
+[README en inglés](README.md#server-config).
 
 ## Licencia
 
